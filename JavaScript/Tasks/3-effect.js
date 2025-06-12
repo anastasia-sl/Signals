@@ -15,7 +15,36 @@ const electronics = [
 
 const total = signal(0);
 
+const items = signal([...electronics]);
+
 effect(() => {
-  console.log(electronics);
-  console.log({ total });
+  let sum = 0;
+  for (const item of items.value) {
+    sum += item.price;
+  }
+  
+  total.value = sum;
+  
+  console.log('Current state');
+  console.log('Items:', items.value);
+  console.log('Total:', total.value);
 });
+
+console.log('\nInitial state:');
+
+setTimeout(() => {
+  console.log('\nAdding a new item');
+  items.value = [...items.value, { name: 'Mouse', price: 50 }];
+}, 1000);
+
+setTimeout(() => {
+  console.log('\nRemoving an item');
+  items.value = items.value.filter(item => item.name !== 'Keyboard');
+}, 2000);
+
+setTimeout(() => {
+  console.log('\nUpdating item price');
+  items.value = items.value.map(item => 
+    item.name === 'Laptop' ? {...item, price: 1600} : item
+  );
+}, 3000);
