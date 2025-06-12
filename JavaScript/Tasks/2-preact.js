@@ -14,13 +14,9 @@ const electronics = [
 
 const items = signal(electronics);
 
-const total = (items) => {
-  let result = 0;
-  for (const item of items) {
-    result += item.price;
-  }
-  return result;
-};
+const total = computed(() =>
+  items.value.reduce((sum, item) => sum + item.price, 0)
+);
 
-console.log(`Total: ${total(items.value)}`);
+console.log(`Total: ${total.value}`);
 console.log(computed);
